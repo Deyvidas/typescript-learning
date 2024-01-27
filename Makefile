@@ -10,3 +10,6 @@ run:	## Compile TypeScript into JavaScript, then execute the TypeScript code.
 build-run var:	## Build and execute .ts file, run commands build -> run.
 	make build ${file}
 	make run ${file}
+
+tests_run:	## Run tests
+	node_modules/.bin/jest

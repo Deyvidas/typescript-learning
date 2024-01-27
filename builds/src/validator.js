@@ -1,29 +1,4 @@
-"use strict";
-const enteredValue = document.querySelector('input[id="enteredValue"]');
-const calculateButton = document.querySelector('button[id="calculateButton"]');
-const calculatedValue = document.querySelector('div[id="calculatedValue"]');
-if (enteredValue && calculateButton && calculatedValue) {
-    calculateButton.onclick = () => {
-        if (!enteredValue.value) {
-            calculatedValue.innerText = "0";
-        }
-        calculatedValue.innerText = calculateArithmeticalExpression(enteredValue.value);
-    };
-}
-function calculateArithmeticalExpression(expression) {
-    let returnValue;
-    try {
-        returnValue = validateExpression(expression);
-        return eval(returnValue);
-    }
-    catch (error) {
-        if (error instanceof Error) {
-            return error.message;
-        }
-        throw new Error("Unknown error!");
-    }
-}
-function validateExpression(expression) {
+export function validateExpression(expression) {
     expression = expression.replaceAll(" ", "");
     const digits = RegExp("[\\d]");
     const operators = RegExp("[+*\\-\\/]");
@@ -33,7 +8,7 @@ function validateExpression(expression) {
     [...expression].forEach((char) => {
         if (char === "(") {
             let len = result.length;
-            if (len > 0 && result[len - 1].match(operators) === null) {
+            if (len > 0 && result[len - 1].match(operators) !== null) {
                 throw new Error("The opening bracket needs to have the arithmetic operator before it.");
             }
             result += char;

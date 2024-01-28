@@ -15,6 +15,11 @@ type TestCaseInvalid = {
 
 const testCasesValid: Array<TestCaseValid> = [
     {
+        passed: "      ",
+        expected: "0",
+        testName: "When passed empty string.",
+    },
+    {
         passed: "  2  /  0  ",
         expected: "2/0",
         testName: "All spaces are deleted from the expression.",
@@ -63,6 +68,16 @@ const testCasesValid: Array<TestCaseValid> = [
         passed: "(-1)",
         expected: "(-1)",
         testName: "Between the opening and closing brackets, only one digit can be used.",
+    },
+    {
+        passed: "2**2",
+        expected: "2**2",
+        testName: "The expression contains the mathematical pow operator (**).",
+    },
+    {
+        passed: "(2+2)**(2+2)",
+        expected: "(2+2)**(2+2)",
+        testName: "The expression contains the pow operator between brackets.",
     },
 ];
 
@@ -123,19 +138,24 @@ const testCasesInvalid: Array<TestCaseInvalid> = [
         testName: "The expression contains the letters.",
     },
     {
-        passed: ")+(2+2)",
+        passed: ")(",
         error: new Error(errorMessages.invalidFirstChar),
         testName: "Expressions start with a closing bracket.",
     },
     {
-        passed: "*(2+2)",
+        passed: "*)",
         error: new Error(errorMessages.invalidFirstChar),
         testName: "Expressions start with a multiplying operator.",
     },
     {
-        passed: "/(2+2)",
+        passed: "/)",
         error: new Error(errorMessages.invalidFirstChar),
         testName: "Expressions start with a divide operator.",
+    },
+    {
+        passed: "2***2",
+        error: new Error(errorMessages.consecutiveOperators),
+        testName: "The expression contains incorrect mathematical pow operator (**).",
     },
 ];
 

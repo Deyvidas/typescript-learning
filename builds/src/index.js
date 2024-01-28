@@ -1,21 +1,48 @@
 import { validateExpression } from "./validator.js";
-const enteredValue = document.querySelector('input[id="enteredValue"]');
-const calculateButton = document.querySelector('button[id="calculateButton"]');
-const calculatedValue = document.querySelector('div[id="calculatedValue"]');
-if (enteredValue && calculateButton && calculatedValue) {
-    calculateButton.onclick = () => {
-        if (!enteredValue.value) {
-            calculatedValue.innerText = "0";
+// TODO Make a report of errors in a separate area, not in the calculator screen.
+// TODO Place a value where the cursor is positioned.;
+const calcScreenId = "calculatorScreen";
+const calcButtonId = "calculateButton";
+const eraseButtonId = "eraseButton";
+let alreadyCalculated = false;
+const calculatorScreen = document.querySelector(`input[id="${calcScreenId}"]`);
+const calculator = document.querySelector("table");
+if (calculator !== null) {
+    calculator.onclick = (event) => {
+        let clickedElement;
+        if (!(event.target instanceof HTMLButtonElement)) {
             return;
         }
-        calculatedValue.innerText = calculateArithmeticalExpression(enteredValue.value);
+        else if (calculatorScreen === null) {
+            return;
+        }
+        clickedElement = event.target;
+        if (clickedElement.id == calcScreenId) {
+            return;
+        }
+        else if (clickedElement.id == calcButtonId) {
+            calculatorScreen.value = calculateArithmeticalExpression(calculatorScreen.value);
+            alreadyCalculated = true;
+            return;
+        }
+        else if (clickedElement.id == eraseButtonId) {
+            calculatorScreen.value = calculatorScreen.value.slice(0, -1);
+            return;
+        }
+        else if (clickedElement.tagName != "BUTTON") {
+            return; //In that case if client make a click between two buttons
+        }
+        if (alreadyCalculated) {
+            calculatorScreen.value = "";
+            alreadyCalculated = false;
+        }
+        calculatorScreen.value += clickedElement.innerText;
+        return;
     };
 }
 function calculateArithmeticalExpression(expression) {
-    let returnValue;
     try {
-        returnValue = validateExpression(expression);
-        return eval(returnValue);
+        return eval(validateExpression(expression));
     }
     catch (error) {
         if (error instanceof Error) {

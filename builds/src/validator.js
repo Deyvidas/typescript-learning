@@ -12,6 +12,9 @@ export const errorMessages = {
 };
 export function validateExpression(expression) {
     expression = expression.replaceAll(" ", "");
+    if (expression.length == 0) {
+        return "0";
+    }
     const excludeAllowedRegex = RegExp("[^\\d\\-\\/+*.)(]");
     const digitRegex = RegExp("[\\d]");
     const operatorRegex = RegExp("[+*\\-\\/]");
@@ -56,7 +59,9 @@ export function validateExpression(expression) {
         }
         else if (char.match(operatorRegex)) {
             if (lastChar?.match(operatorRegex) != null) {
-                throw new Error(errorMessages.consecutiveOperators);
+                if (char != "*" || result.slice(-2) == "**") {
+                    throw new Error(errorMessages.consecutiveOperators);
+                }
             }
             digits = [];
         }

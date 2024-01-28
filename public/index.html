@@ -12,14 +12,63 @@
   <body>
 
     <div class="container">
-      <div class="input-group input-group-lg margin">
+      <!-- <div class="input-group input-group-lg margin">
         <input id="enteredValue" type="text" class="form-control" placeholder="((12+3)*5)-(10/5)">
         <button id="calculateButton" class="btn btn-outline-secondary" type="button">Button</button>
       </div>
       <div class="card text-center margin">
         <div id="calculatedValue" class="card-body">0</div>
-      </div>
-    </div>
+      </div> -->
 
+      <table class="my-table">
+        <tbody>
+          <tr>
+            <td colspan="3">
+              <div>
+                <input id="calculatorScreen" class="calculator-screen" type="text" dir="ltr" placeholder="(12+4)*(5/(23-13))">
+              </div>
+            </td>
+            <td>
+              <div>
+                <button id="eraseButton" class="calculator-screen erase-button">delete</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><div><button class="operator-button">**</button></div></td>
+            <td><div><button class="operator-button">(</button></div></td>
+            <td><div><button class="operator-button">)</button></div></td>
+            <td><div><button class="operator-button">+</button></div></td>
+          </tr>
+          <tr>
+            <td><div><button class="digit-button">1</button></div></td>
+            <td><div><button class="digit-button">2</button></div></td>
+            <td><div><button class="digit-button">3</button></div></td>
+            <td><div><button class="operator-button">-</button></div></td>
+          </tr>
+          <tr>
+            <td><div><button class="digit-button">4</button></div></td>
+            <td><div><button class="digit-button">5</button></div></td>
+            <td><div><button class="digit-button">6</button></div></td>
+            <td><div><button class="operator-button">*</button></div></td>
+          </tr>
+          <tr>
+            <td><div><button class="digit-button">7</button></div></td>
+            <td><div><button class="digit-button">8</button></div></td>
+            <td><div><button class="digit-button">9</button></div></td>
+            <td><div><button class="operator-button">/</button></div></td>
+          </tr>
+          <tr>
+            <td><div><button class="digit-button">0</button></div></td>
+            <td><div><button class="digit-button">.</button></div></td>
+            <td colspan="2">
+              <div><button id="calculateButton" class="operator-button">=</button></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+    
 </body>
 </html>

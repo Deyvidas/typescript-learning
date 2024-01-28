@@ -1,19 +1,6 @@
 import { expect, test } from "@jest/globals";
 import { validateExpression, errorMessages } from "../src/validator.js";
-
-type TestCaseValid = {
-    passed: string;
-    expected: string;
-    testName: string;
-};
-
-type TestCaseInvalid = {
-    passed: string;
-    error: Error;
-    testName: string;
-};
-
-const testCasesValid: Array<TestCaseValid> = [
+const testCasesValid = [
     {
         passed: "  2  /  0  ",
         expected: "2/0",
@@ -60,8 +47,7 @@ const testCasesValid: Array<TestCaseValid> = [
         testName: "Between the opening and closing brackets, only one digit can be used.",
     },
 ];
-
-const testCasesInvalid: Array<TestCaseInvalid> = [
+const testCasesInvalid = [
     {
         passed: "()",
         error: new Error(errorMessages.missValueBetweenBrackets),
@@ -133,13 +119,11 @@ const testCasesInvalid: Array<TestCaseInvalid> = [
         testName: "Expressions start with a divide operator.",
     },
 ];
-
 testCasesValid.forEach(({ testName, passed, expected }) => {
     test(`${testName}\n  passed: ${passed}\nexpected: ${expected}`, () => {
         expect(validateExpression(passed)).toBe(expected);
     });
 });
-
 testCasesInvalid.forEach(({ testName, passed, error }) => {
     test(`${testName}\n  passed: ${passed}\nexpected: ${error.message}`, () => {
         function validate() {

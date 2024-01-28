@@ -1,57 +1,71 @@
+export const errorMessages = {
+    invalidFirstChar: "The expression can start with a digit or the +-( symbol.",
+    invalidOpenBracketLocation: "Opening bracket can be after the operator or another open bracket, or at the start of the expression.", // prettier-ignore
+    invalidCloseBracketLocation: "Closing bracket can be after the digit or another close bracket.", //prettier-ignore
+    invalidOperatorLocation: "The expression cannot end with an operator.",
+    missValueBetweenBrackets: "The brackets must contain an expression or digit.",
+    extraOpenBracket: "There are one or more extra (open) brackets.",
+    extraCloseBracket: "There are one or more extra (close) brackets.",
+    extraDotInDecimal: "A decimal number cannot contain more than one dot.",
+    consecutiveOperators: "Two consecutive operators are not allowed.",
+    letterInExpression: "Arithmetic expressions cannot contain letters.",
+};
 export function validateExpression(expression) {
     expression = expression.replaceAll(" ", "");
-    const digits = RegExp("[\\d]");
-    const operators = RegExp("[+*\\-\\/]");
-    let parenthesisStack = [];
-    let digitsStack = [];
+    const digitRegex = RegExp("[\\d]");
+    const operatorRegex = RegExp("[+*\\-\\/]");
+    let brackets = [];
+    let digits = [];
     let result = "";
     [...expression].forEach((char) => {
-        if (char === "(") {
-            let len = result.length;
-            if (len > 0 && result[len - 1].match(operators) !== null) {
-                throw new Error("The opening bracket needs to have the arithmetic operator before it.");
+        let lastChar = result.at(-1);
+        if (lastChar === undefined) {
+            let validFirstChar = RegExp("[\\d.+\\-(]");
+            if (char.match(validFirstChar) === null) {
+                throw new Error(errorMessages.invalidFirstChar);
             }
-            result += char;
-            parenthesisStack.push(char);
-            digitsStack = [];
         }
-        else if (char === ")") {
-            if (parenthesisStack.pop() === undefined) {
-                throw new Error("There are one or more extra (close) brackets.");
+        if (char == "(") {
+            if (lastChar?.match(digitRegex) != null || lastChar == ".") {
+                throw new Error(errorMessages.invalidOpenBracketLocation);
             }
-            else if (result[result.length - 1] == "(") {
-                throw new Error("Brackets must contain arithmetic operation.");
-            }
-            result += char;
-            digitsStack = [];
+            brackets.push(char);
+            digits = [];
         }
-        else if (char.match(digits) || char == ".") {
-            let len = digitsStack.length;
-            if (len == 0) {
-                digitsStack.push(char);
+        else if (char == ")") {
+            if (brackets.pop() === undefined) {
+                throw new Error(errorMessages.extraCloseBracket);
             }
-            else if (len != 0) {
-                digitsStack[len - 1] += char;
+            else if (lastChar == "(") {
+                throw new Error(errorMessages.missValueBetweenBrackets);
             }
-            else if (char == "." && digitsStack[len - 1].indexOf(".") != -1) {
-                throw new Error("Only one dot can be present in a decimal number.");
+            else if (lastChar?.match(operatorRegex) !== null) {
+                throw new Error(errorMessages.invalidCloseBracketLocation);
             }
-            result += char;
+            digits = [];
         }
-        else if (char.match(operators)) {
-            let len = result.length;
-            if (len > 0 && result[len - 1].match(operators) !== null) {
-                throw new Error("Two consecutive signs cannot be present");
+        else if (char == "." || char.match(digitRegex)) {
+            if (char == "." && digits.includes(".")) {
+                throw new Error(errorMessages.extraDotInDecimal);
             }
-            result += char;
-            digitsStack = [];
+            digits.push(char);
+        }
+        else if (char.match(operatorRegex)) {
+            if (lastChar?.match(operatorRegex) != null) {
+                throw new Error(errorMessages.consecutiveOperators);
+            }
+            digits = [];
         }
         else {
-            throw new Error("Arithmetical expressions cannot contain letters.");
+            throw new Error(errorMessages.letterInExpression);
         }
+        result += char;
     });
-    if (parenthesisStack.length > 0) {
-        throw new Error("There are one or more extra (open) brackets.");
+    if (result.at(-1)?.match(operatorRegex) !== null) {
+        throw new Error(errorMessages.invalidOperatorLocation);
+    }
+    else if (brackets.length > 0) {
+        throw new Error(errorMessages.extraOpenBracket);
     }
     return result;
 }

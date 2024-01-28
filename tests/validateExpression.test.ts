@@ -20,6 +20,11 @@ const testCasesValid: Array<TestCaseValid> = [
         testName: "All spaces are deleted from the expression.",
     },
     {
+        passed: "0",
+        expected: "0",
+        testName: "Passing only one number.",
+    },
+    {
         passed: "-(2)+2",
         expected: "-(2)+2",
         testName: "Expressions start with the minus operator.",

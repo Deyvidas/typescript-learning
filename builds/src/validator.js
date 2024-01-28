@@ -12,11 +12,15 @@ export const errorMessages = {
 };
 export function validateExpression(expression) {
     expression = expression.replaceAll(" ", "");
+    const excludeAllowedRegex = RegExp("[^\\d\\-\\/+*.)(]");
     const digitRegex = RegExp("[\\d]");
     const operatorRegex = RegExp("[+*\\-\\/]");
-    let brackets = [];
+    let openBrackets = [];
     let digits = [];
     let result = "";
+    if (expression.match(excludeAllowedRegex) !== null) {
+        throw new Error(errorMessages.letterInExpression);
+    }
     [...expression].forEach((char) => {
         let lastChar = result.at(-1);
         if (lastChar === undefined) {
@@ -29,11 +33,11 @@ export function validateExpression(expression) {
             if (lastChar?.match(digitRegex) != null || lastChar == ".") {
                 throw new Error(errorMessages.invalidOpenBracketLocation);
             }
-            brackets.push(char);
+            openBrackets.push(char);
             digits = [];
         }
         else if (char == ")") {
-            if (brackets.pop() === undefined) {
+            if (openBrackets.pop() === undefined) {
                 throw new Error(errorMessages.extraCloseBracket);
             }
             else if (lastChar == "(") {
@@ -56,15 +60,12 @@ export function validateExpression(expression) {
             }
             digits = [];
         }
-        else {
-            throw new Error(errorMessages.letterInExpression);
-        }
         result += char;
     });
     if (result.at(-1)?.match(operatorRegex) !== null) {
         throw new Error(errorMessages.invalidOperatorLocation);
     }
-    else if (brackets.length > 0) {
+    else if (openBrackets.length > 0) {
         throw new Error(errorMessages.extraOpenBracket);
     }
     return result;

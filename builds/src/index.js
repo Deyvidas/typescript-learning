@@ -6,6 +6,7 @@ if (enteredValue && calculateButton && calculatedValue) {
     calculateButton.onclick = () => {
         if (!enteredValue.value) {
             calculatedValue.innerText = "0";
+            return;
         }
         calculatedValue.innerText = calculateArithmeticalExpression(enteredValue.value);
     };

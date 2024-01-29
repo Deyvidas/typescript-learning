@@ -12,7 +12,45 @@
   <body>
 
     <div class="container">
-      <!-- content -->
+      <!-- input of new task -->
+      <div class="section input">
+        <input class="task-input" type="text" placeholder="Введите текст задачи" title="Введите текст задачи">
+        <button class="task-submit" title="Добавить задачу">+</button>
+      </div>
+
+      <!-- the list of planned tasks -->
+      <div class="section planned">
+        <h6 class="section-title planned">
+          ЗАПЛАНИРОВАНО · 
+          <span class="tasks-count planned" title="Кол-во задач которые нужно выполнить">0</span>
+        </h6>
+        
+        <ul class="tasks-list planned">
+          <!--
+          <li class="tasks-list element">
+            <input class="element-checkbox" type="checkbox">
+            <span>task-1</span>
+          </li>
+          -->
+        </ul>
+      </div>
+
+      <!-- the list of executed tasks -->
+      <div class="section executed">
+        <h6 class="section-title executed">
+          СДЕЛАНО · 
+          <span class="tasks-count executed" title="Кол-во выполненных задач">0</span>
+        </h6>
+        <ul class="tasks-list executed">
+          <!--
+          <li class="tasks-list element">
+            <input class="element-checkbox" type="checkbox" checked>
+            <span>task-2</span>
+          </li>
+          -->
+        </ul>
+      </div>
+
     </div>
 
   </body>

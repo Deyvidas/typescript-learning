@@ -1,4 +1,16 @@
-* {
+.reset {
     margin: 0px;
     padding: 0px;
+}
+
+.car-card {
+    button[id*="car-start-button"] {
+        background-color: rgb(123, 255, 0);
+        border-radius: 10px;
+        width: 100px;
+        color: black;
+    }
+    button[class*=hidden] {
+        display: none;
+    }
 }

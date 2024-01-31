@@ -4,12 +4,20 @@
 }
 
 .car-card {
-    button[id*="car-start-button"] {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 10px;
+    border: 1px solid black;
+
+    button[class*="car-start-button"] {
         background-color: rgb(123, 255, 0);
         border-radius: 10px;
+        border: 1px solid orangered;
         width: 100px;
         color: black;
     }
+
     button[class*=hidden] {
         display: none;
     }
